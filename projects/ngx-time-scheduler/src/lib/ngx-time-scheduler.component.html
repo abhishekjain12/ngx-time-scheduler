@@ -1,0 +1,95 @@
+<div class="time-sch-wrapper" [style.height]="MaxHeight">
+  <div class="time-sch-header-wrapper mb-1">
+    <div class="time-sch-period-container">
+      <button class="btn"
+              *ngFor="let period of getSchedule.Periods"
+              [ngClass]="period.Classes"
+              (click)="changePeriod(period)"
+      >
+        {{period.Name}}
+      </button>
+    </div>
+
+    <div class="time-sch-time-container">
+      <button class="btn" *ngIf="showGoto" (click)="showGotoModal = !showGotoModal">{{text.GotoButton}}</button>
+      <div class="goto-modal" *ngIf="showGotoModal">
+        <label>
+          <input type="date" (change)="gotoDate($event.target.value)">
+        </label>
+      </div>
+
+      <button class="btn" *ngIf="showToday" (click)="gotoToday()">{{text.TodayButton}}</button>
+      <button class="btn" (click)="previousPeriod()">{{text.PrevButton}}</button>
+      <button class="btn" (click)="nextPeriod()">{{text.NextButton}}</button>
+    </div>
+
+    <h3 class="text-center m-0">
+      {{ start.format(HeaderFormat) + ' - ' + end.format(HeaderFormat)}}
+    </h3>
+  </div>
+
+  <div class="time-sch-table-wrapper">
+    <table class="time-sch-table">
+      <tr *ngFor="let timeFrameHeader of header; let i = index; trackBy: trackByFn">
+
+        <td class="time-sch-section text-center" *ngIf="i === 0" [rowSpan]="getSchedule.Periods.length">
+          {{text.SectionTitle}}
+        </td>
+
+        <td class="text-center"
+            *ngFor="let dateTime of timeFrameHeader.headerDetails; trackBy: trackByFn"
+            [colSpan]="dateTime.colspan"
+        >
+          {{dateTime.name}}
+        </td>
+
+      </tr>
+    </table>
+
+    <div class="time-sch-content-wrap">
+      <table class="time-sch-table">
+        <tr *ngFor="let sectionItem of sectionItems; trackBy: trackByFn"
+            [style.height]="sectionItem.minRowHeight + 'px'">
+          <td class="time-sch-section text-center" #sectionTd
+              (click)="getSchedule.events.SectionClickEvent ? getSchedule.events.SectionClickEvent(sectionItem.section) : false"
+              [style.cursor]="getSchedule.events.SectionClickEvent ? 'pointer' : ''"
+          >
+            {{sectionItem.section.name}}
+          </td>
+
+          <td *ngFor="let td of header[header.length - 1].headerDetails; trackBy: trackByFn"></td>
+        </tr>
+      </table>
+
+      <div class="time-sch-section-wrapper" [style.left]="SectionLeftMeasure">
+        <div class="time-sch-section-container"
+             *ngFor="let sectionItem of sectionItems; trackBy: trackByFn"
+             [style.height]="sectionItem.minRowHeight + 'px'"
+        >
+          <div class="time-sch-item"
+               *ngFor="let itemMeta of sectionItem.itemMetas"
+               (click)="getSchedule.events.ItemClicked ? getSchedule.events.ItemClicked(itemMeta.item) : false"
+               [style.height]="MinRowHeight + 'px'"
+               [style.top]="itemMeta.cssTop + 'px'"
+               [style.left]="itemMeta.cssLeft + '%'"
+               [style.width]="itemMeta.cssWidth + '%'"
+          >
+            <div class="time-sch-item-start" *ngIf="itemMeta.isStart"></div>
+            <div class="time-sch-item-content" [ngClass]="itemMeta.item.classes">
+              {{itemMeta.item.name}}
+            </div>
+            <div class="time-sch-item-end" *ngIf="itemMeta.isEnd"></div>
+          </div>
+        </div>
+
+        <div class="time-sch-current-time"
+             *ngIf="showCurrentTime"
+             [title]="currentTimeTitle"
+             [style.visibility]="currentTimeVisibility"
+             [style.left]="currentTimeIndicatorPosition"
+        ></div>
+      </div>
+
+    </div>
+  </div>
+</div>
