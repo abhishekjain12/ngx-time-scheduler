@@ -129,6 +129,41 @@
           }
         }
       }
+    },
+    "NgxTimeScheduler": {
+      "root": "projects/ngx-time-scheduler",
+      "sourceRoot": "projects/ngx-time-scheduler/src",
+      "projectType": "library",
+      "prefix": "ngx-ts",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngx-time-scheduler/tsconfig.lib.json",
+            "project": "projects/ngx-time-scheduler/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-time-scheduler/src/test.ts",
+            "tsConfig": "projects/ngx-time-scheduler/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-time-scheduler/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-time-scheduler/tsconfig.lib.json",
+              "projects/ngx-time-scheduler/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "TimeScheduler"

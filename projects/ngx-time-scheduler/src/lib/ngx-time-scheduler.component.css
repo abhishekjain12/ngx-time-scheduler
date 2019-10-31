@@ -1,0 +1,152 @@
+.d-inline-block {
+  display: inline-block !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.m-0 {
+  margin: 0 !important;
+}
+
+.mb-1 {
+  margin-bottom: 1rem !important;
+}
+
+.btn {
+  border: 1px solid #E1E1E1;
+  font-weight: 600;
+  text-decoration: none;
+  color: #222222;
+  height: 30px;
+  padding: .5em 1em;
+  cursor: pointer;
+  margin: 0.2rem;
+  border-radius: 4px;
+}
+
+.goto-modal {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  height: auto;
+  width: auto;
+  border-radius: 4px;
+  background-color: #dddddd;
+  padding: 5px;
+  text-align: left;
+  z-index: 1;
+}
+
+.time-sch-wrapper {
+  overflow: auto;
+}
+
+.time-sch-wrapper, .time-sch-header-wrapper, .time-sch-table-wrapper {
+  position: relative;
+}
+
+.time-sch-header-wrapper {
+  padding: .5em;
+  margin-bottom: .5em;
+}
+
+.time-sch-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.time-sch-period-container {
+  float: left;
+  position: relative;
+}
+
+.time-sch-time-container {
+  float: right;
+  position: relative;
+}
+
+.time-sch-wrapper .time-sch-section {
+  width: 200px;
+}
+
+.time-sch-wrapper th, .time-sch-wrapper td {
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: #E1E1E1;
+  border-bottom-color: #E1E1E1;
+  border-left-color: #C1C1C1;
+  border-right-color: #C1C1C1;
+}
+
+.time-sch-content-wrap {
+  position: relative;
+}
+
+
+.time-sch-section-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.time-sch-section-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.time-sch-item {
+  position: absolute;
+  min-height: 1em;
+  clear: both;
+  background-color: #2299DD;
+  color: white;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color ease 0.1s;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #C1C1C1;
+}
+
+.time-sch-item-content {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+  padding: 4px 0 4px 6px;
+}
+
+.time-sch-item-start, .time-sch-item-end {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+}
+
+.time-sch-item-start {
+  left: 1px;
+  border-right: 2px dotted #FFFFFF;
+}
+
+.time-sch-item-end {
+  right: 1px;
+  border-left: 2px dotted #FFFFFF;
+}
+
+.time-sch-current-time {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  background: transparent;
+  border-left-style: dotted;
+  border-left-width: 1px;
+  border-left-color: #000000;
+}
