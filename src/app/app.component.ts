@@ -69,22 +69,22 @@ export class AppComponent implements OnInit {
       id: 1,
       sectionID: 1,
       name: 'Item 1',
-      start: moment('2019-10-29'),
-      end: moment('2019-10-29').add(5, 'days'),
+      start: moment().startOf('day'),
+      end: moment().add(5, 'days'),
       classes: ''
     }, {
       id: 2,
       sectionID: 3,
       name: 'Item 2',
-      start: moment('2019-10-30'),
-      end: moment('2019-10-30').add(4, 'days'),
+      start: moment().startOf('day'),
+      end: moment().add(4, 'days'),
       classes: ''
     }, {
       id: 3,
       sectionID: 1,
       name: 'Item 3',
-      start: moment('2019-10-31').add(1, 'days'),
-      end: moment('2019-10-31').add(3, 'days'),
+      start: moment().add(1, 'days').startOf('day'),
+      end: moment().add(3, 'days'),
       classes: ''
     }];
 

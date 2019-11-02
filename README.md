@@ -108,21 +108,21 @@ export class AppComponent implements OnInit {
       id: 1,
       sectionID: 1,
       name: 'Item 1',
-      start: moment(),
+      start: moment().startOf('day'),
       end: moment().add(5, 'days'),
       classes: ''
     }, {
       id: 2,
       sectionID: 3,
       name: 'Item 2',
-      start: moment(),
+      start: moment().startOf('day'),
       end: moment().add(3, 'days'),
       classes: ''
     }, {
       id: 3,
       sectionID: 1,
       name: 'Item 3',
-      start: moment().add(1, 'days'),
+      start: moment().add(1, 'days').startOf('day'),
       end: moment().add(3, 'days'),
       classes: ''
     }];
@@ -205,7 +205,7 @@ A selection of events are provided to hook into when creating the scheduler, and
 
 
 # Demo
-[Demo]()
+[Demo](https://abhishekjain12.github.io/ngx-time-scheduler/)
 
 
 # Credits
