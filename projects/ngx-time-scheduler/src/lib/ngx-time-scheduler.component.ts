@@ -1,5 +1,13 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {HeaderDetailsModel, HeaderModel, ItemMeta, PeriodModel, ScheduleModel, SectionItem, TextModel} from './ngx-time-scheduler.model';
+import {
+  HeaderDetails,
+  Header,
+  ItemMeta,
+  Item,
+  Period,
+  SectionItem, Section,
+  Text, Events
+} from './ngx-time-scheduler.model';
 import * as moment_ from 'moment';
 
 const moment = moment_;
@@ -22,31 +30,34 @@ export class NgxTimeSchedulerComponent implements OnInit {
   // @Input() allowDragging = false;
   // @Input() allowResizing = false;
   // @Input() disableOnMove = true;
-  @Input() showGotoModal = false;
-  @Input() isBusinessDayOnly = false;
-  @Input() HeaderFormat = 'Do MMM YYYY';
-  @Input() MinRowHeight = 40;
-  @Input() MaxHeight: string = null;
-  @Input() text = new TextModel();
-  @Input() getSchedule: ScheduleModel | any;
+  @Input() showBusinessDayOnly = false;
+  @Input() headerFormat = 'Do MMM YYYY';
+  @Input() minRowHeight = 40;
+  @Input() maxHeight: string = null;
+  @Input() text = new Text();
+  @Input() items: Item[];
+  @Input() sections: Section[];
+  @Input() periods: Period[];
+  @Input() events: Events;
   @Input() start = moment().startOf('day');
 
   end = moment().endOf('day');
+  showGotoModal = false;
   currentTimeIndicatorPosition: string;
   currentTimeVisibility = 'visible';
   currentTimeTitle: string;
   ShowCurrentTimeHandle = null;
   SectionLeftMeasure = '0';
-  currentPeriod: PeriodModel;
+  currentPeriod: Period;
   currentPeriodMinuteDiff = 0;
-  header: HeaderModel[];
+  header: Header[];
   sectionItems: SectionItem[] = new Array<SectionItem>();
 
   constructor(private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.setSectionsInSectionItems();
-    this.changePeriod(this.getSchedule.Periods[0]);
+    this.changePeriod(this.periods[0]);
   }
 
   trackByFn(index, item) {
@@ -54,10 +65,10 @@ export class NgxTimeSchedulerComponent implements OnInit {
   }
 
   setSectionsInSectionItems() {
-    this.getSchedule.Sections.forEach(section => {
+    this.sections.forEach(section => {
       const perSectionItem = new SectionItem();
       perSectionItem.section = section;
-      perSectionItem.minRowHeight = this.MinRowHeight;
+      perSectionItem.minRowHeight = this.minRowHeight;
       this.sectionItems.push(perSectionItem);
     });
   }
@@ -66,9 +77,9 @@ export class NgxTimeSchedulerComponent implements OnInit {
     this.sectionItems.forEach(ele => {
       let itemCounts = 0;
       ele.itemMetas = new Array<ItemMeta>();
-      ele.minRowHeight = this.MinRowHeight;
+      ele.minRowHeight = this.minRowHeight;
 
-      this.getSchedule.Items.filter(i => {
+      this.items.filter(i => {
         let itemMeta = new ItemMeta();
 
         if (i.sectionID === ele.section.id) {
@@ -77,7 +88,7 @@ export class NgxTimeSchedulerComponent implements OnInit {
 
             itemMeta = this.itemMetaCal(itemMeta, itemCounts);
             itemCounts++;
-            ele.minRowHeight = itemCounts * this.MinRowHeight;
+            ele.minRowHeight = itemCounts * this.minRowHeight;
             ele.itemMetas.push(itemMeta);
           }
         }
@@ -88,7 +99,7 @@ export class NgxTimeSchedulerComponent implements OnInit {
   itemMetaCal(itemMeta: ItemMeta, itemCounts: number) {
     const foundStart = moment.max(itemMeta.item.start, this.start);
 
-    itemMeta.cssTop = itemCounts * this.MinRowHeight;
+    itemMeta.cssTop = itemCounts * this.minRowHeight;
     itemMeta.cssLeft = (foundStart.diff(this.start, 'minutes') / this.currentPeriodMinuteDiff) * 100;
     itemMeta.cssWidth = (
       Math.abs(foundStart.diff(moment.min(itemMeta.item.end, this.end), 'minutes')) / this.currentPeriodMinuteDiff
@@ -104,18 +115,18 @@ export class NgxTimeSchedulerComponent implements OnInit {
     return itemMeta;
   }
 
-  changePeriod(period: PeriodModel) {
+  changePeriod(period: Period) {
     this.currentPeriod = period;
     const _start = this.start;
-    this.end = moment(_start).add(this.currentPeriod.TimeFrameOverall, 'minutes').endOf('day');
+    this.end = moment(_start).add(this.currentPeriod.timeFrameOverall, 'minutes').endOf('day');
     this.currentPeriodMinuteDiff = Math.abs(this.start.diff(this.end, 'minutes'));
 
-    if (this.isBusinessDayOnly) {
-      this.currentPeriodMinuteDiff -= (this.getNumberOfWeekendDays() * this.currentPeriod.TimeFramePeriod);
+    if (this.showBusinessDayOnly) {
+      this.currentPeriodMinuteDiff -= (this.getNumberOfWeekendDays() * this.currentPeriod.timeFramePeriod);
     }
 
-    this.header = new Array<HeaderModel>();
-    this.currentPeriod.TimeFrameHeaders.forEach(ele => {
+    this.header = new Array<Header>();
+    this.currentPeriod.timeFrameHeaders.forEach(ele => {
       this.header.push(this.getDatesBetweenTwoDates(ele));
     });
 
@@ -148,12 +159,12 @@ export class NgxTimeSchedulerComponent implements OnInit {
   }
 
   nextPeriod() {
-    this.start.add(this.currentPeriod.TimeFrameOverall, 'minutes');
+    this.start.add(this.currentPeriod.timeFrameOverall, 'minutes');
     this.changePeriod(this.currentPeriod);
   }
 
   previousPeriod() {
-    this.start.subtract(this.currentPeriod.TimeFrameOverall, 'minutes');
+    this.start.subtract(this.currentPeriod.timeFrameOverall, 'minutes');
     this.changePeriod(this.currentPeriod);
   }
 
@@ -163,15 +174,15 @@ export class NgxTimeSchedulerComponent implements OnInit {
     this.changePeriod(this.currentPeriod);
   }
 
-  getDatesBetweenTwoDates(format): HeaderModel {
+  getDatesBetweenTwoDates(format): Header {
     const now = moment(this.start);
-    const dates = new HeaderModel();
+    const dates = new Header();
     let prev: string;
     let colspan = 0;
 
     while (now.isBefore(this.end) || now.isSame(this.end)) {
-      if (!this.isBusinessDayOnly || (now.day() !== 0 && now.day() !== 6)) {
-        const headerDetails = new HeaderDetailsModel();
+      if (!this.showBusinessDayOnly || (now.day() !== 0 && now.day() !== 6)) {
+        const headerDetails = new HeaderDetails();
         headerDetails.name = now.format(format);
         if (prev && prev !== headerDetails.name) {
           colspan = 1;
@@ -183,7 +194,7 @@ export class NgxTimeSchedulerComponent implements OnInit {
         headerDetails.colspan = colspan;
         dates.headerDetails.push(headerDetails);
       }
-      now.add(this.currentPeriod.TimeFramePeriod, 'minutes');
+      now.add(this.currentPeriod.timeFramePeriod, 'minutes');
     }
     return dates;
   }
@@ -196,7 +207,7 @@ export class NgxTimeSchedulerComponent implements OnInit {
       if ((now.day() === 0 || now.day() === 6)) {
         count++;
       }
-      now.add(this.currentPeriod.TimeFramePeriod, 'minutes');
+      now.add(this.currentPeriod.timeFramePeriod, 'minutes');
     }
     return count;
   }
