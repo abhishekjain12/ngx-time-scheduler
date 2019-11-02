@@ -1,23 +1,12 @@
-export class ScheduleModel {
-  Periods: PeriodModel[];
-  Items: ItemModel[];
-  Sections: SectionModel[];
-  events: Events;
-
-  constructor() {
-    this.events = new Events();
-  }
+export class Period {
+  name: string;
+  classes: string;
+  timeFramePeriod: number;
+  timeFrameOverall: number;
+  timeFrameHeaders: string[];
 }
 
-export class PeriodModel {
-  Name: string;
-  Classes: string;
-  TimeFramePeriod: number;
-  TimeFrameOverall: number;
-  TimeFrameHeaders: string[];
-}
-
-export class ItemModel {
+export class Item {
   id: number;
   name: string;
   start: any;
@@ -26,13 +15,13 @@ export class ItemModel {
   sectionID: number;
 }
 
-export class SectionModel {
+export class Section {
   id: number;
   name: string;
 }
 
 export class SectionItem {
-  section: SectionModel;
+  section: Section;
   minRowHeight: number;
   itemMetas: ItemMeta[];
 
@@ -42,7 +31,7 @@ export class SectionItem {
 }
 
 export class ItemMeta {
-  item: ItemModel;
+  item: Item;
   isStart: boolean;
   isEnd: boolean;
   cssTop: number;
@@ -56,20 +45,20 @@ export class ItemMeta {
   }
 }
 
-export class HeaderModel {
-  headerDetails: HeaderDetailsModel[];
+export class Header {
+  headerDetails: HeaderDetails[];
 
   constructor() {
-    this.headerDetails = new Array<HeaderDetailsModel>();
+    this.headerDetails = new Array<HeaderDetails>();
   }
 }
 
-export class HeaderDetailsModel {
+export class HeaderDetails {
   name: string;
   colspan: number;
 }
 
-export class TextModel {
+export class Text {
   NextButton: string;
   PrevButton: string;
   TodayButton: string;
@@ -86,13 +75,13 @@ export class TextModel {
 }
 
 export class Events {
-  // ItemMouseEnter: (item: ItemModel) => void;
-  // ItemMouseLeave: (item: ItemModel) => void;
-  // ItemDropped: (item: ItemModel, sectionID: string, start: any, end: any) => void;
-  // ItemResized: (item: ItemModel, start: any, end: any) => void;
-  // ItemMovement: (item: ItemModel, start: any, end: any) => void;
-  // ItemMovementStart: (item: ItemModel, start: any, end: any) => void;
-  // ItemMovementEnd: (item: ItemModel, start: any, end: any) => void;
-  ItemClicked: (item: ItemModel) => void;
-  SectionClickEvent: (section: SectionModel) => void;
+  // ItemMouseEnter: (item: Item) => void;
+  // ItemMouseLeave: (item: Item) => void;
+  // ItemDropped: (item: Item, sectionID: string, start: any, end: any) => void;
+  // ItemResized: (item: Item, start: any, end: any) => void;
+  // ItemMovement: (item: Item, start: any, end: any) => void;
+  // ItemMovementStart: (item: Item, start: any, end: any) => void;
+  // ItemMovementEnd: (item: Item, start: any, end: any) => void;
+  ItemClicked: (item: Item) => void;
+  SectionClickEvent: (section: Section) => void;
 }

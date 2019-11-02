@@ -1,12 +1,12 @@
-<div class="time-sch-wrapper" [style.height]="MaxHeight">
+<div class="time-sch-wrapper" [style.height]="maxHeight">
   <div class="time-sch-header-wrapper mb-1">
     <div class="time-sch-period-container">
       <button class="btn"
-              *ngFor="let period of getSchedule.Periods"
-              [ngClass]="period.Classes"
+              *ngFor="let period of periods"
+              [ngClass]="period.classes"
               (click)="changePeriod(period)"
       >
-        {{period.Name}}
+        {{period.name}}
       </button>
     </div>
 
@@ -24,7 +24,7 @@
     </div>
 
     <h3 class="text-center m-0">
-      {{ start.format(HeaderFormat) + ' - ' + end.format(HeaderFormat)}}
+      {{ start.format(headerFormat) + ' - ' + end.format(headerFormat)}}
     </h3>
   </div>
 
@@ -32,7 +32,7 @@
     <table class="time-sch-table">
       <tr *ngFor="let timeFrameHeader of header; let i = index; trackBy: trackByFn">
 
-        <td class="time-sch-section text-center" *ngIf="i === 0" [rowSpan]="getSchedule.Periods.length">
+        <td class="time-sch-section text-center" *ngIf="i === 0" [rowSpan]="periods.length">
           {{text.SectionTitle}}
         </td>
 
@@ -51,8 +51,8 @@
         <tr *ngFor="let sectionItem of sectionItems; trackBy: trackByFn"
             [style.height]="sectionItem.minRowHeight + 'px'">
           <td class="time-sch-section text-center" #sectionTd
-              (click)="getSchedule.events.SectionClickEvent ? getSchedule.events.SectionClickEvent(sectionItem.section) : false"
-              [style.cursor]="getSchedule.events.SectionClickEvent ? 'pointer' : ''"
+              (click)="events.SectionClickEvent ? events.SectionClickEvent(sectionItem.section) : false"
+              [style.cursor]="events.SectionClickEvent ? 'pointer' : ''"
           >
             {{sectionItem.section.name}}
           </td>
@@ -68,8 +68,8 @@
         >
           <div class="time-sch-item"
                *ngFor="let itemMeta of sectionItem.itemMetas"
-               (click)="getSchedule.events.ItemClicked ? getSchedule.events.ItemClicked(itemMeta.item) : false"
-               [style.height]="MinRowHeight + 'px'"
+               (click)="events.ItemClicked ? events.ItemClicked(itemMeta.item) : false"
+               [style.height]="minRowHeight + 'px'"
                [style.top]="itemMeta.cssTop + 'px'"
                [style.left]="itemMeta.cssLeft + '%'"
                [style.width]="itemMeta.cssWidth + '%'"

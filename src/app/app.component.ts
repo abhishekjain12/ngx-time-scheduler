@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ScheduleModel} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.model';
+import {Item, Period, Section, Events} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.model';
 import * as moment from 'moment';
 
 @Component({
@@ -9,44 +9,40 @@ import * as moment from 'moment';
 })
 export class AppComponent implements OnInit {
 
-  getSchedule = new ScheduleModel();
+  events: Events = new Events();
+  periods: Period[];
+  sections: Section[];
+  items: Item[];
 
   constructor() {
-    this.setPeriod();
-    this.setSections();
-    this.setItems();
-    this.getSchedule.events.SectionClickEvent = (section) => {console.log(section); };
-    this.getSchedule.events.ItemClicked = (item) => {console.log(item); };
-  }
+    this.events.SectionClickEvent = (section) => {console.log(section); };
+    this.events.ItemClicked = (item) => {console.log(item); };
 
-  setPeriod() {
-    this.getSchedule.Periods = [
+    this.periods = [
       {
-        Name: '3 days',
-        TimeFramePeriod: (60 * 3),
-        TimeFrameOverall: (60 * 24 * 3),
-        TimeFrameHeaders: [
+        name: '3 days',
+        timeFramePeriod: (60 * 3),
+        timeFrameOverall: (60 * 24 * 3),
+        timeFrameHeaders: [
           'Do MMM',
           'HH'
         ],
-        Classes: 'period-3day'
+        classes: 'period-3day'
       }, {
-        Name: '1 week',
-        TimeFrameHeaders: ['MMM YYYY', 'DD(ddd)'],
-        Classes: '',
-        TimeFrameOverall: 1440 * 7,
-        TimeFramePeriod: 1440,
+        name: '1 week',
+        timeFrameHeaders: ['MMM YYYY', 'DD(ddd)'],
+        classes: '',
+        timeFrameOverall: 1440 * 7,
+        timeFramePeriod: 1440,
       }, {
-        Name: '2 week',
-        TimeFrameHeaders: ['MMM YYYY', 'DD(ddd)'],
-        Classes: '',
-        TimeFrameOverall: 1440 * 14,
-        TimeFramePeriod: 1440,
+        name: '2 week',
+        timeFrameHeaders: ['MMM YYYY', 'DD(ddd)'],
+        classes: '',
+        timeFrameOverall: 1440 * 14,
+        timeFramePeriod: 1440,
       }];
-  }
 
-  setSections() {
-    this.getSchedule.Sections = [{
+    this.sections = [{
       name: 'A',
       id: 1
     }, {
@@ -68,10 +64,8 @@ export class AppComponent implements OnInit {
       name: 'G',
       id: 7
     }];
-  }
 
-  setItems() {
-    this.getSchedule.Items = [{
+    this.items = [{
       id: 1,
       sectionID: 1,
       name: 'Item 1',
@@ -93,26 +87,8 @@ export class AppComponent implements OnInit {
       end: moment('2019-10-31').add(3, 'days'),
       classes: ''
     }];
-  }
 
-  addItem(section) {
-    const id = this.getSchedule.Items.length + 1;
-    this.getSchedule.Items.push({
-      id: id,
-      sectionID: section.id,
-      name: 'Item ' + id,
-      start: moment('2019-10-24'),
-      end: moment('2019-10-24').add(3, 'days'),
-      classes: ''
-    });
-    const x = this.getSchedule;
-    this.getSchedule = null;
-    this.getSchedule = x;
   }
-
-  // getData() {
-  //   return this.getSchedule;
-  // }
 
   ngOnInit() {
   }
