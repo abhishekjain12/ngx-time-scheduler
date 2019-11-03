@@ -1,4 +1,4 @@
-# TimeScheduler
+# Angular Time Scheduler
 [![GitHub issues](https://img.shields.io/github/issues/abhishekjain12/ngx-time-scheduler.svg)](https://github.com/abhishekjain12/ngx-time-scheduler/issues)
 [![GitHub forks](https://img.shields.io/github/forks/abhishekjain12/ngx-time-scheduler.svg)](https://github.com/abhishekjain12/ngx-time-scheduler/network)
 [![GitHub stars](https://img.shields.io/github/stars/abhishekjain12/ngx-time-scheduler.svg)](https://github.com/abhishekjain12/ngx-time-scheduler/stargazers)
@@ -60,8 +60,8 @@ export class AppComponent implements OnInit {
   items: Item[];
 
   ngOnInit() {
-    this.events.SectionClickEvent = (section) => {console.log(section); };
-    this.events.ItemClicked = (item) => {console.log(item); };
+    this.events.SectionClickEvent = (section) => { console.log(section); };
+    this.events.ItemClicked = (item) => { console.log(item); };
 
     this.periods = [
       {
@@ -138,7 +138,7 @@ export class AppComponent implements OnInit {
 | periods               | Yes       | Period[]  | `null`                    | An array of `Period` denoting what periods to display and used to traverse the calendar. |
 | sections              | Yes       | Section[] | `null`                    | An array of `Section` to fill up the sections of the scheduler. |
 | items                 | Yes       | Item[]    | `null`                    | An array of `Item` to fill up the items of the scheduler. |
-| events                | Yes       | Events    | `null`                    | The events that can be hooked into. |
+| events                | No        | Events    | `null`                    | The events that can be hooked into. |
 | currentTimeFormat     | No        | string    | `'DD-MMM-YYYY HH:mm'`     | The momentjs format to use for concise areas, such as tooltips. |
 | showCurrentTime       | No        | boolean   | `true`                    | Whether the current time should be marked on the scheduler. |
 | showGoto              | No        | boolean   | `true`                    | Whether the Goto button should be displayed. |
@@ -209,7 +209,7 @@ A selection of events are provided to hook into when creating the scheduler, and
 
 
 # Credits
-This angular time scheduler is based on the work done by [Zallist](https://github.com/Zallist/TimeScheduler).
+This time scheduler is based on the work done by [Zallist](https://github.com/Zallist/TimeScheduler).
 
 
 # License

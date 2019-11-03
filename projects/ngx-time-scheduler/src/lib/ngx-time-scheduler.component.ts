@@ -13,7 +13,7 @@ import * as moment_ from 'moment';
 const moment = moment_;
 
 @Component({
-  selector: 'ngx-ts',
+  selector: 'ngx-ts[items][periods][sections]',
   templateUrl: './ngx-time-scheduler.component.html',
   styleUrls: ['./ngx-time-scheduler.component.css']
 })
@@ -38,7 +38,7 @@ export class NgxTimeSchedulerComponent implements OnInit {
   @Input() items: Item[];
   @Input() sections: Section[];
   @Input() periods: Period[];
-  @Input() events: Events;
+  @Input() events: Events = new Events();
   @Input() start = moment().startOf('day');
 
   end = moment().endOf('day');
