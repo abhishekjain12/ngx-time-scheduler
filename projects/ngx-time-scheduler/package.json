@@ -1,6 +1,6 @@
 {
   "name": "ngx-time-scheduler",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "description": "A simple Angular Timeline Scheduler library",
   "author": {
     "name": "Abhishek Jain",
@@ -18,9 +18,12 @@
     "angular",
     "time-scheduler",
     "scheduler",
+    "calender",
     "typescript",
     "timeline-scheduler",
-    "timeline"
+    "calendar-scheduler",
+    "timeline",
+    "ngx-time-scheduler"
   ],
   "license": "MIT",
   "peerDependencies": {
