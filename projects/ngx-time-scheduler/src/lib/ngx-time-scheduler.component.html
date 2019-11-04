@@ -68,6 +68,7 @@
         >
           <div class="time-sch-item"
                *ngFor="let itemMeta of sectionItem.itemMetas"
+               [ngClass]="itemMeta.item.classes"
                (click)="events.ItemClicked ? events.ItemClicked(itemMeta.item) : false"
                [style.height]="minRowHeight + 'px'"
                [style.top]="itemMeta.cssTop + 'px'"
@@ -75,7 +76,7 @@
                [style.width]="itemMeta.cssWidth + '%'"
           >
             <div class="time-sch-item-start" *ngIf="itemMeta.isStart"></div>
-            <div class="time-sch-item-content" [ngClass]="itemMeta.item.classes">
+            <div class="time-sch-item-content">
               {{itemMeta.item.name}}
             </div>
             <div class="time-sch-item-end" *ngIf="itemMeta.isEnd"></div>

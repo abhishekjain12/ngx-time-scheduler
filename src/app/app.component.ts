@@ -8,6 +8,7 @@ import * as moment from 'moment';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  eventOutput = '';
 
   events: Events = new Events();
   periods: Period[];
@@ -15,8 +16,8 @@ export class AppComponent implements OnInit {
   items: Item[];
 
   constructor() {
-    this.events.SectionClickEvent = (section) => {console.log(section); };
-    this.events.ItemClicked = (item) => {console.log(item); };
+    this.events.SectionClickEvent = (section) => { this.eventOutput += '\n' + JSON.stringify(section); };
+    this.events.ItemClicked = (item) => { this.eventOutput += '\n' + JSON.stringify(item); };
 
     this.periods = [
       {
@@ -70,21 +71,21 @@ export class AppComponent implements OnInit {
       sectionID: 1,
       name: 'Item 1',
       start: moment().startOf('day'),
-      end: moment().add(5, 'days'),
+      end: moment().add(5, 'days').endOf('day'),
       classes: ''
     }, {
       id: 2,
       sectionID: 3,
       name: 'Item 2',
       start: moment().startOf('day'),
-      end: moment().add(4, 'days'),
+      end: moment().add(4, 'days').endOf('day'),
       classes: ''
     }, {
       id: 3,
       sectionID: 1,
       name: 'Item 3',
       start: moment().add(1, 'days').startOf('day'),
-      end: moment().add(3, 'days'),
+      end: moment().add(3, 'days').endOf('day'),
       classes: ''
     }];
 

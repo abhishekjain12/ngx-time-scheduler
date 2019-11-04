@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {NgxTimeSchedulerModule} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.module';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import {NgxTimeSchedulerModule} from '../../projects/ngx-time-scheduler/src/lib/
   ],
   imports: [
     BrowserModule,
-    NgxTimeSchedulerModule
+    NgxTimeSchedulerModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

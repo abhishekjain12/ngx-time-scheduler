@@ -98,12 +98,18 @@ export class NgxTimeSchedulerComponent implements OnInit {
 
   itemMetaCal(itemMeta: ItemMeta, itemCounts: number) {
     const foundStart = moment.max(itemMeta.item.start, this.start);
+    const foundEnd = moment.min(itemMeta.item.end, this.end);
+
+    let widthMinuteDiff = Math.abs(foundStart.diff(foundEnd, 'minutes'));
+    let leftMinuteDiff = foundStart.diff(this.start, 'minutes');
+    if (this.showBusinessDayOnly) {
+      widthMinuteDiff -= (this.getNumberOfWeekendDays(moment(foundStart), moment(foundEnd)) * this.currentPeriod.timeFramePeriod);
+      leftMinuteDiff -= (this.getNumberOfWeekendDays(moment(this.start), moment(foundStart)) * this.currentPeriod.timeFramePeriod);
+    }
 
     itemMeta.cssTop = itemCounts * this.minRowHeight;
-    itemMeta.cssLeft = (foundStart.diff(this.start, 'minutes') / this.currentPeriodMinuteDiff) * 100;
-    itemMeta.cssWidth = (
-      Math.abs(foundStart.diff(moment.min(itemMeta.item.end, this.end), 'minutes')) / this.currentPeriodMinuteDiff
-    ) * 100;
+    itemMeta.cssLeft = (leftMinuteDiff / this.currentPeriodMinuteDiff) * 100;
+    itemMeta.cssWidth = (widthMinuteDiff / this.currentPeriodMinuteDiff) * 100;
 
     if (itemMeta.item.start >= this.start) {
       itemMeta.isStart = true;
@@ -122,7 +128,8 @@ export class NgxTimeSchedulerComponent implements OnInit {
     this.currentPeriodMinuteDiff = Math.abs(this.start.diff(this.end, 'minutes'));
 
     if (this.showBusinessDayOnly) {
-      this.currentPeriodMinuteDiff -= (this.getNumberOfWeekendDays() * this.currentPeriod.timeFramePeriod);
+      this.currentPeriodMinuteDiff -=
+        (this.getNumberOfWeekendDays(moment(this.start), moment(this.end)) * this.currentPeriod.timeFramePeriod);
     }
 
     this.header = new Array<Header>();
@@ -199,15 +206,13 @@ export class NgxTimeSchedulerComponent implements OnInit {
     return dates;
   }
 
-  getNumberOfWeekendDays() {
-    const now = moment(this.start);
+  getNumberOfWeekendDays(startDate, endDate) {
     let count = 0;
-
-    while (now.isBefore(this.end) || now.isSame(this.end)) {
-      if ((now.day() === 0 || now.day() === 6)) {
+    while (startDate.isBefore(endDate) || startDate.isSame(endDate)) {
+      if ((startDate.day() === 0 || startDate.day() === 6)) {
         count++;
       }
-      now.add(this.currentPeriod.timeFramePeriod, 'minutes');
+      startDate.add(this.currentPeriod.timeFramePeriod, 'minutes');
     }
     return count;
   }
