@@ -109,21 +109,21 @@ export class AppComponent implements OnInit {
       sectionID: 1,
       name: 'Item 1',
       start: moment().startOf('day'),
-      end: moment().add(5, 'days'),
+      end: moment().add(5, 'days').endOf('day'),
       classes: ''
     }, {
       id: 2,
       sectionID: 3,
       name: 'Item 2',
       start: moment().startOf('day'),
-      end: moment().add(3, 'days'),
+      end: moment().add(4, 'days').endOf('day'),
       classes: ''
     }, {
       id: 3,
       sectionID: 1,
       name: 'Item 3',
       start: moment().add(1, 'days').startOf('day'),
-      end: moment().add(3, 'days'),
+      end: moment().add(3, 'days').endOf('day'),
       classes: ''
     }];
 
@@ -138,7 +138,7 @@ export class AppComponent implements OnInit {
 | periods               | Yes       | Period[]  | `null`                    | An array of `Period` denoting what periods to display and used to traverse the calendar. |
 | sections              | Yes       | Section[] | `null`                    | An array of `Section` to fill up the sections of the scheduler. |
 | items                 | Yes       | Item[]    | `null`                    | An array of `Item` to fill up the items of the scheduler. |
-| events                | No        | Events    | `null`                    | The events that can be hooked into. |
+| events                | No        | Events    | `new Events()`            | The events that can be hooked into. |
 | currentTimeFormat     | No        | string    | `'DD-MMM-YYYY HH:mm'`     | The momentjs format to use for concise areas, such as tooltips. |
 | showCurrentTime       | No        | boolean   | `true`                    | Whether the current time should be marked on the scheduler. |
 | showGoto              | No        | boolean   | `true`                    | Whether the Goto button should be displayed. |
