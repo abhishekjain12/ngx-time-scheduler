@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   constructor() {
     this.events.SectionClickEvent = (section) => { this.eventOutput += '\n' + JSON.stringify(section); };
     this.events.ItemClicked = (item) => { this.eventOutput += '\n' + JSON.stringify(item); };
+    this.events.ItemDropped = (item) => { this.eventOutput += '\n' + JSON.stringify(item); };
 
     this.periods = [
       {

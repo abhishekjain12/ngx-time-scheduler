@@ -1,4 +1,5 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {
   HeaderDetails,
   Header,
@@ -18,7 +19,7 @@ const moment = moment_;
   styleUrls: ['./ngx-time-scheduler.component.css']
 })
 export class NgxTimeSchedulerComponent implements OnInit {
-  @ViewChild('sectionTd') set SectionTd(elementRef: ElementRef) {
+  @ViewChild('sectionTd', {static: false}) set SectionTd(elementRef: ElementRef) {
     this.SectionLeftMeasure = elementRef.nativeElement.clientWidth + 'px';
     this.changeDetector.detectChanges();
   }
@@ -27,9 +28,8 @@ export class NgxTimeSchedulerComponent implements OnInit {
   @Input() showCurrentTime = true;
   @Input() showGoto = true;
   @Input() showToday = true;
-  // @Input() allowDragging = false;
+  @Input() allowDragging = false;
   // @Input() allowResizing = false;
-  // @Input() disableOnMove = true;
   @Input() showBusinessDayOnly = false;
   @Input() headerFormat = 'Do MMM YYYY';
   @Input() minRowHeight = 40;
@@ -51,7 +51,7 @@ export class NgxTimeSchedulerComponent implements OnInit {
   currentPeriod: Period;
   currentPeriodMinuteDiff = 0;
   header: Header[];
-  sectionItems: SectionItem[] = new Array<SectionItem>();
+  sectionItems: SectionItem[];
 
   constructor(private changeDetector: ChangeDetectorRef) { }
 
@@ -65,6 +65,7 @@ export class NgxTimeSchedulerComponent implements OnInit {
   }
 
   setSectionsInSectionItems() {
+    this.sectionItems = new Array<SectionItem>();
     this.sections.forEach(section => {
       const perSectionItem = new SectionItem();
       perSectionItem.section = section;
@@ -215,6 +216,13 @@ export class NgxTimeSchedulerComponent implements OnInit {
       startDate.add(this.currentPeriod.timeFramePeriod, 'minutes');
     }
     return count;
+  }
+
+  drop(event: CdkDragDrop<Section>) {
+    event.item.data.sectionID = event.container.data.id;
+    this.setSectionsInSectionItems();
+    this.changePeriod(this.currentPeriod);
+    this.events.ItemDropped(event.item.data);
   }
 
 }

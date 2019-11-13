@@ -40,6 +40,7 @@ Use `ngx-ts` in your `app-component.html` template.
   [sections]="sections"
   [events]="events"
   [showBusinessDayOnly]="false"
+  [allowDragging]="true"
 ></ngx-ts>
 ```
 
@@ -144,6 +145,7 @@ export class AppComponent implements OnInit {
 | showGoto              | No        | boolean   | `true`                    | Whether the Goto button should be displayed. |
 | showToday             | No        | boolean   | `true`                    | Whether the Today button should be displayed. |
 | showBusinessDayOnly   | No        | boolean   | `false`                   | Whether business days only displayed (Sat-Sun). |
+| allowDragging         | No        | boolean   | `false`                   | Whether or not dragging should be allowed. |
 | headerFormat          | No        | string    | `'Do MMM YYYY'`           | The momentjs format to use for the date range displayed as a header. |
 | minRowHeight          | No        | number    | `40`                      | The minimum height, in pixels, that a section should be. |
 | maxHeight             | No        | number    | `null`                    | The maximum height of the scheduler. |
@@ -202,6 +204,7 @@ A selection of events are provided to hook into when creating the scheduler, and
 | ---               | ---               | ---           | ---         |
 | ItemClicked       | item: Item        | void          | Triggered when an item is clicked. |
 | SectionClickEvent | section: Section  | void          | Triggered when a section is clicked. |
+| ItemDropped       | item: Item        | void          | Triggered when an item is dropped onto a section. `item` is the new data after the action. |
 
 
 # Demo
