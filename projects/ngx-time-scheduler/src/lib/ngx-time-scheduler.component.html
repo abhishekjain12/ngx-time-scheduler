@@ -61,12 +61,21 @@
         </tr>
       </table>
 
-      <div class="time-sch-section-wrapper" [style.left]="SectionLeftMeasure">
+      <div class="time-sch-section-wrapper" [style.left]="SectionLeftMeasure" cdkDropListGroup>
         <div class="time-sch-section-container"
+             cdkDropList
+             cdkDropListSortingDisabled
+             [cdkDropListData]="sectionItem.section"
+             (cdkDropListDropped)="drop($event)"
              *ngFor="let sectionItem of sectionItems; trackBy: trackByFn"
              [style.height]="sectionItem.minRowHeight + 'px'"
         >
           <div class="time-sch-item"
+               cdkDrag
+               cdkDragLockAxis="y"
+               cdkDragBoundary=".time-sch-section-wrapper"
+               [cdkDragData]="itemMeta.item"
+               [cdkDragDisabled]="!allowDragging"
                *ngFor="let itemMeta of sectionItem.itemMetas"
                [ngClass]="itemMeta.item.classes"
                (click)="events.ItemClicked ? events.ItemClicked(itemMeta.item) : false"
@@ -75,6 +84,12 @@
                [style.left]="itemMeta.cssLeft + '%'"
                [style.width]="itemMeta.cssWidth + '%'"
           >
+            <div class="item-drag-placeholder"
+                 *cdkDragPlaceholder
+                 [style.height]="(minRowHeight - 6) + 'px'"
+                 [style.left]="itemMeta.cssLeft + '%'"
+                 [style.width]="'calc('+ itemMeta.cssWidth + '% - 6px)'"
+            ></div>
             <div class="time-sch-item-start" *ngIf="itemMeta.isStart"></div>
             <div class="time-sch-item-content">
               {{itemMeta.item.name}}

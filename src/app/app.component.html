@@ -4,9 +4,14 @@
   [sections]="sections"
   [events]="events"
   [showBusinessDayOnly]="false"
+  [allowDragging]="true"
 ></ngx-ts>
 
 <h3>Event output</h3>
 <label>
-  <textarea placeholder="Event output" [(ngModel)]="eventOutput" name="event-output" style="width: 80%"></textarea>
+  <textarea
+    placeholder="Event output"
+    [(ngModel)]="eventOutput"
+    name="event-output"
+    style="width: 80%; height: 50px"></textarea>
 </label>

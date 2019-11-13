@@ -20,6 +20,32 @@ export class Section {
   name: string;
 }
 
+export class Text {
+  NextButton: string;
+  PrevButton: string;
+  TodayButton: string;
+  GotoButton: string;
+  SectionTitle: string;
+
+  constructor() {
+    this.NextButton = 'Next';
+    this.PrevButton = 'Prev';
+    this.TodayButton = 'Today';
+    this.GotoButton = 'Go to';
+    this.SectionTitle = 'Section';
+  }
+}
+
+export class Events {
+  // ItemResized: (item: Item, start: any, end: any) => void;
+  // ItemMovement: (item: Item, start: any, end: any) => void;
+  // ItemMovementStart: (item: Item, start: any, end: any) => void;
+  // ItemMovementEnd: (item: Item, start: any, end: any) => void;
+  ItemDropped: (item: Item) => void;
+  ItemClicked: (item: Item) => void;
+  SectionClickEvent: (section: Section) => void;
+}
+
 export class SectionItem {
   section: Section;
   minRowHeight: number;
@@ -56,32 +82,4 @@ export class Header {
 export class HeaderDetails {
   name: string;
   colspan: number;
-}
-
-export class Text {
-  NextButton: string;
-  PrevButton: string;
-  TodayButton: string;
-  GotoButton: string;
-  SectionTitle: string;
-
-  constructor() {
-    this.NextButton = 'Next';
-    this.PrevButton = 'Prev';
-    this.TodayButton = 'Today';
-    this.GotoButton = 'Go to';
-    this.SectionTitle = 'Section';
-  }
-}
-
-export class Events {
-  // ItemMouseEnter: (item: Item) => void;
-  // ItemMouseLeave: (item: Item) => void;
-  // ItemDropped: (item: Item, sectionID: string, start: any, end: any) => void;
-  // ItemResized: (item: Item, start: any, end: any) => void;
-  // ItemMovement: (item: Item, start: any, end: any) => void;
-  // ItemMovementStart: (item: Item, start: any, end: any) => void;
-  // ItemMovementEnd: (item: Item, start: any, end: any) => void;
-  ItemClicked: (item: Item) => void;
-  SectionClickEvent: (section: Section) => void;
 }
