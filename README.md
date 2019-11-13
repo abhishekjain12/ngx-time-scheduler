@@ -63,6 +63,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.events.SectionClickEvent = (section) => { console.log(section); };
     this.events.ItemClicked = (item) => { console.log(item); };
+    this.events.ItemDropped = (item) => { console.log(item); };
 
     this.periods = [
       {
