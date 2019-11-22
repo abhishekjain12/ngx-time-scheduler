@@ -47,7 +47,7 @@ Use `ngx-ts` in your `app-component.html` template.
 And in your `app.component.ts` component class:
 ```typescript
 import {Component, OnInit} from '@angular/core';
-import {Item, Period, Section, Events} from 'ngx-time-scheduler';
+import {Item, Period, Section, Events, NgxTimeSchedulerService} from 'ngx-time-scheduler';
 import * as moment from 'moment';
 
 @Component({
@@ -59,6 +59,8 @@ export class AppComponent implements OnInit {
   periods: Period[];
   sections: Section[];
   items: Item[];
+
+  constructor(private service: NgxTimeSchedulerService) {}
 
   ngOnInit() {
     this.events.SectionClickEvent = (section) => { console.log(section); };
@@ -131,6 +133,25 @@ export class AppComponent implements OnInit {
 
   }
 
+  addItem() {
+    this.service.itemPush({
+      id: 4,
+      sectionID: 5,
+      name: 'Item 4',
+      start: moment().startOf('day'),
+      end: moment().add(3, 'days').endOf('day'),
+      classes: ''
+    });
+  }
+
+  popItem() {
+    this.service.itemPop();
+  }
+
+  removeItem() {
+    this.service.itemRemove(4);
+  }
+
 }
 ```
 
@@ -154,7 +175,18 @@ export class AppComponent implements OnInit {
 | start                 | No        | moment    | `moment().startOf('day')` | The start time of the scheduler as a moment object. It's recommend to use `.startOf('day')`  on the moment for a clear starting point. |
 
 
-# Model
+# Methods
+
+Object with properties which create periods that can be used to traverse the calendar.
+
+| Name          | Parameter      | Return Type   | Description   |
+| ---           | ---            | ---           | ---           |
+| itemPush      | item: Item     | `void`        | Push the new item object into the existing one. |
+| itemPop       | `None`         | `void`        | Pop the last item from the existing one.  |
+| itemRemove    | id: number     | `void`        | Remove the item with defined item id from the existing one. |
+
+
+# Models
 
 #### Period
 Object with properties which create periods that can be used to traverse the calendar.

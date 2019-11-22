@@ -1,5 +1,6 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
+import {NgxTimeSchedulerService} from './ngx-time-scheduler.service';
 import {
   HeaderDetails,
   Header,
@@ -10,6 +11,7 @@ import {
   Text, Events
 } from './ngx-time-scheduler.model';
 import * as moment_ from 'moment';
+import {Subscription} from 'rxjs';
 
 const moment = moment_;
 
@@ -18,7 +20,7 @@ const moment = moment_;
   templateUrl: './ngx-time-scheduler.component.html',
   styleUrls: ['./ngx-time-scheduler.component.css']
 })
-export class NgxTimeSchedulerComponent implements OnInit {
+export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
   @ViewChild('sectionTd', {static: false}) set SectionTd(elementRef: ElementRef) {
     this.SectionLeftMeasure = elementRef.nativeElement.clientWidth + 'px';
     this.changeDetector.detectChanges();
@@ -52,12 +54,24 @@ export class NgxTimeSchedulerComponent implements OnInit {
   currentPeriodMinuteDiff = 0;
   header: Header[];
   sectionItems: SectionItem[];
+  subscription = new Subscription();
 
-  constructor(private changeDetector: ChangeDetectorRef) { }
+  constructor(
+    private changeDetector: ChangeDetectorRef,
+    private service: NgxTimeSchedulerService
+  ) { }
 
   ngOnInit(): void {
     this.setSectionsInSectionItems();
     this.changePeriod(this.periods[0]);
+    this.itemPush();
+    this.itemPop();
+    this.itemRemove();
+  }
+
+  refreshView() {
+    this.setSectionsInSectionItems();
+    this.changePeriod(this.currentPeriod);
   }
 
   trackByFn(index, item) {
@@ -220,9 +234,37 @@ export class NgxTimeSchedulerComponent implements OnInit {
 
   drop(event: CdkDragDrop<Section>) {
     event.item.data.sectionID = event.container.data.id;
-    this.setSectionsInSectionItems();
-    this.changePeriod(this.currentPeriod);
+    this.refreshView();
     this.events.ItemDropped(event.item.data);
+  }
+
+  itemPush() {
+    this.subscription.add(this.service.itemAdd.asObservable().subscribe((item: Item) => {
+      this.items.push(item);
+      this.refreshView();
+    }));
+  }
+
+  itemPop() {
+    this.subscription.add(this.service.item.asObservable().subscribe(() => {
+      this.items.pop();
+      this.refreshView();
+    }));
+  }
+
+  itemRemove() {
+    this.subscription.add(this.service.itemId.asObservable().subscribe((itemId: number) => {
+      this.items.splice(this.items.findIndex((item) => {
+        return item.id === itemId;
+      }), 1);
+      this.refreshView();
+    }));
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }

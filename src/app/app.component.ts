@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Item, Period, Section, Events} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.model';
+import {NgxTimeSchedulerService} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.service';
 import * as moment from 'moment';
 
 @Component({
@@ -14,8 +15,9 @@ export class AppComponent implements OnInit {
   periods: Period[];
   sections: Section[];
   items: Item[];
+  count = 3;
 
-  constructor() {
+  constructor(private service: NgxTimeSchedulerService) {
     this.events.SectionClickEvent = (section) => { this.eventOutput += '\n' + JSON.stringify(section); };
     this.events.ItemClicked = (item) => { this.eventOutput += '\n' + JSON.stringify(item); };
     this.events.ItemDropped = (item) => { this.eventOutput += '\n' + JSON.stringify(item); };
@@ -93,6 +95,26 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  addItem() {
+    this.count++;
+    this.service.itemPush({
+      id: this.count,
+      sectionID: 5,
+      name: 'Item ' + this.count,
+      start: moment().startOf('day'),
+      end: moment().add(3, 'days').endOf('day'),
+      classes: ''
+    });
+  }
+
+  popItem() {
+    this.service.itemPop();
+  }
+
+  removeItem() {
+    this.service.itemRemove(4);
   }
 
 }
