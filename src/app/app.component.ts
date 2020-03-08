@@ -24,6 +24,13 @@ export class AppComponent implements OnInit {
 
     this.periods = [
       {
+        name: '2 week',
+        timeFrameHeaders: ['MMM YYYY', 'DD(ddd)'],
+        classes: '',
+        timeFrameOverall: 1440 * 14,
+        timeFramePeriod: 1440,
+      },
+      {
         name: '3 days',
         timeFramePeriod: (60 * 3),
         timeFrameOverall: (60 * 24 * 3),
@@ -37,12 +44,6 @@ export class AppComponent implements OnInit {
         timeFrameHeaders: ['MMM YYYY', 'DD(ddd)'],
         classes: '',
         timeFrameOverall: 1440 * 7,
-        timeFramePeriod: 1440,
-      }, {
-        name: '2 week',
-        timeFrameHeaders: ['MMM YYYY', 'DD(ddd)'],
-        classes: '',
-        timeFrameOverall: 1440 * 14,
         timeFramePeriod: 1440,
       }];
 
@@ -89,6 +90,48 @@ export class AppComponent implements OnInit {
       name: 'Item 3',
       start: moment().add(1, 'days').startOf('day'),
       end: moment().add(3, 'days').endOf('day'),
+      classes: ''
+    }, {
+      id: 4,
+      sectionID: 3,
+      name: 'Item 4',
+      start: moment().add(1, 'days').startOf('day'),
+      end: moment().add(3, 'days').endOf('day'),
+      classes: ''
+    }, {
+      id: 5,
+      sectionID: 1,
+      name: 'Item 5',
+      start: moment().add(7, 'days').startOf('day'),
+      end: moment().add(8, 'days').endOf('day'),
+      classes: ''
+    }, {
+      id: 6,
+      sectionID: 1,
+      name: 'Item 6',
+      start: moment().subtract(3, 'days').startOf('day'),
+      end: moment().subtract(1, 'days').endOf('day'),
+      classes: ''
+    }, {
+      id: 7,
+      sectionID: 1,
+      name: 'Item 7',
+      start: moment().subtract(2, 'days').startOf('day'),
+      end: moment().add(2, 'days').endOf('day'),
+      classes: ''
+    }, {
+      id: 8,
+      sectionID: 1,
+      name: 'Item 8',
+      start: moment().add(3, 'days').startOf('day'),
+      end: moment().add(7, 'days').endOf('day'),
+      classes: ''
+    }, {
+      id: 9,
+      sectionID: 1,
+      name: 'Item 9',
+      start: moment().subtract(2, 'days').startOf('day'),
+      end: moment().add(7, 'days').endOf('day'),
       classes: ''
     }];
 

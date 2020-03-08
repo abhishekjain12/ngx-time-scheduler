@@ -59,7 +59,8 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
   constructor(
     private changeDetector: ChangeDetectorRef,
     private service: NgxTimeSchedulerService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.setSectionsInSectionItems();
@@ -89,8 +90,9 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
   }
 
   setItemsInSectionItems() {
+    const itemMetas = new Array<ItemMeta>();
+
     this.sectionItems.forEach(ele => {
-      let itemCounts = 0;
       ele.itemMetas = new Array<ItemMeta>();
       ele.minRowHeight = this.minRowHeight;
 
@@ -100,18 +102,26 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
         if (i.sectionID === ele.section.id) {
           itemMeta.item = i;
           if (itemMeta.item.start <= this.end && itemMeta.item.end >= this.start) {
-
-            itemMeta = this.itemMetaCal(itemMeta, itemCounts);
-            itemCounts++;
-            ele.minRowHeight = itemCounts * this.minRowHeight;
+            itemMeta = this.itemMetaCal(itemMeta);
             ele.itemMetas.push(itemMeta);
+            itemMetas.push(itemMeta);
           }
         }
       });
     });
+
+    const sortedItems = itemMetas.reduce(function (sortItems: {}, itemMeta: ItemMeta) {
+      if (!sortItems[itemMeta.item.sectionID]) {
+        sortItems[itemMeta.item.sectionID] = [];
+      }
+      sortItems[itemMeta.item.sectionID].push(itemMeta);
+      return sortItems;
+    }, {});
+
+    this.calCssTop(sortedItems);
   }
 
-  itemMetaCal(itemMeta: ItemMeta, itemCounts: number) {
+  itemMetaCal(itemMeta: ItemMeta) {
     const foundStart = moment.max(itemMeta.item.start, this.start);
     const foundEnd = moment.min(itemMeta.item.end, this.end);
 
@@ -122,7 +132,6 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
       leftMinuteDiff -= (this.getNumberOfWeekendDays(moment(this.start), moment(foundStart)) * this.currentPeriod.timeFramePeriod);
     }
 
-    itemMeta.cssTop = itemCounts * this.minRowHeight;
     itemMeta.cssLeft = (leftMinuteDiff / this.currentPeriodMinuteDiff) * 100;
     itemMeta.cssWidth = (widthMinuteDiff / this.currentPeriodMinuteDiff) * 100;
 
@@ -134,6 +143,37 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
     }
 
     return itemMeta;
+  }
+
+  calCssTop(sortedItems) {
+    for (const prop of Object.keys(sortedItems)) {
+      for (let i = 0; i < sortedItems[prop].length; i++) {
+        let elemBottom;
+        const elem = sortedItems[prop][i];
+
+        for (let prev = 0; prev < i; prev++) {
+          const prevElem = sortedItems[prop][prev];
+          const prevElemBottom = prevElem.cssTop + this.minRowHeight;
+          elemBottom = elem.cssTop + this.minRowHeight;
+
+          if ((
+            (prevElem.item.start <= elem.item.start && elem.item.start <= prevElem.item.end) ||
+            (prevElem.item.start <= elem.item.end && elem.item.end <= prevElem.item.end) ||
+            (prevElem.item.start >= elem.item.start && elem.item.end >= prevElem.item.end)
+          ) && (
+            (prevElem.cssTop <= elem.cssTop && elem.cssTop <= prevElemBottom) ||
+            (prevElem.cssTop <= elemBottom && elemBottom <= prevElemBottom)
+          )) {
+            elem.cssTop = prevElemBottom + 1;
+          }
+        }
+
+        elemBottom = elem.cssTop + this.minRowHeight + 1;
+        if (elemBottom > this.sectionItems[Number(prop) - 1].minRowHeight) {
+          this.sectionItems[Number(prop) - 1].minRowHeight = elemBottom;
+        }
+      }
+    }
   }
 
   changePeriod(period: Period) {
@@ -167,7 +207,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
       this.currentTimeIndicatorPosition = (
         (Math.abs(this.start.diff(currentTime, 'minutes')) / this.currentPeriodMinuteDiff) * 100
       ) + '%';
-      this.currentTimeTitle = currentTime.format(this.currentTimeFormat );
+      this.currentTimeTitle = currentTime.format(this.currentTimeFormat);
     } else {
       this.currentTimeVisibility = 'hidden';
     }
