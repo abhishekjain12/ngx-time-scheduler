@@ -52,6 +52,7 @@
             [style.height]="sectionItem.minRowHeight + 'px'">
           <td class="time-sch-section text-center" #sectionTd
               (click)="events.SectionClickEvent ? events.SectionClickEvent(sectionItem.section) : false"
+              (contextmenu)="events.SectionContextMenuEvent ? events.SectionContextMenuEvent(sectionItem.section, $event) : false"
               [style.cursor]="events.SectionClickEvent ? 'pointer' : ''"
           >
             {{sectionItem.section.name}}

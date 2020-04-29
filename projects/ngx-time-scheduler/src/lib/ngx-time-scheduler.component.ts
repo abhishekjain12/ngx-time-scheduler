@@ -68,6 +68,10 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
     this.itemPush();
     this.itemPop();
     this.itemRemove();
+    this.sectionPush();
+    this.sectionPop();
+    this.sectionRemove();
+    this.refresh();
   }
 
   refreshView() {
@@ -297,6 +301,36 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
       this.items.splice(this.items.findIndex((item) => {
         return item.id === itemId;
       }), 1);
+      this.refreshView();
+    }));
+  }
+
+  sectionPush() {
+    this.subscription.add(this.service.sectionAdd.asObservable().subscribe((section: Section) => {
+      console.log(section);
+      this.sections.push(section);
+      this.refreshView();
+    }));
+  }
+
+  sectionPop() {
+    this.subscription.add(this.service.section.asObservable().subscribe(() => {
+      this.sections.pop();
+      this.refreshView();
+    }));
+  }
+
+  sectionRemove() {
+    this.subscription.add(this.service.sectionId.asObservable().subscribe((sectionId: number) => {
+      this.sections.splice(this.sections.findIndex((section) => {
+        return section.id === sectionId;
+      }), 1);
+      this.refreshView();
+    }));
+  }
+
+  refresh() {
+    this.subscription.add(this.service.refreshView.asObservable().subscribe(() => {
       this.refreshView();
     }));
   }

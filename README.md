@@ -179,11 +179,15 @@ export class AppComponent implements OnInit {
 
 Object with properties which create periods that can be used to traverse the calendar.
 
-| Name          | Parameter      | Return Type   | Description   |
-| ---           | ---            | ---           | ---           |
-| itemPush      | item: Item     | `void`        | Push the new item object into the existing one. |
-| itemPop       | `None`         | `void`        | Pop the last item from the existing one.  |
-| itemRemove    | id: number     | `void`        | Remove the item with defined item id from the existing one. |
+| Name          | Parameter        | Return Type   | Description   |
+| ---           | ---              | ---           | ---           |
+| itemPush      | item: Item       | `void`        | Push the new item object into the existing one. |
+| itemPop       | `None`           | `void`        | Pop the last item from the existing one.  |
+| itemRemove    | id: number       | `void`        | Remove the item with defined item id from the existing one. |
+| sectionPush   | section: Section | `void`        | Push the new section object into the existing one. |
+| sectionPop    | `None`           | `void`        | Pop the last section from the existing one.  |
+| sectionRemove | id: number       | `void`        | Remove the section with defined section id from the existing one. |
+| refresh       | `None`           | `void`        | Refresh the scheduler view.  |
 
 
 # Models
@@ -233,15 +237,16 @@ An object containing the text used in the scheduler, to be easily customized.
 #### Events
 A selection of events are provided to hook into when creating the scheduler, and are triggered with most interactions with items.
 
-| Name              | Parameters                     | Return type   | Description |
-| ---               | ---                            | ---           | ---         |
-| ItemClicked       | item: Item                     | void          | Triggered when an item is clicked. |
-| ItemContextMenu   | item: Item, event: MouseEvent  | void          | Triggered when an item is righted click (Context Menu). |
-| SectionClickEvent | section: Section               | void          | Triggered when a section is clicked. |
-| ItemDropped       | item: Item                     | void          | Triggered when an item is dropped onto a section. `item` is the new data after the action. |
+| Name                    | Parameters                          | Return type   | Description |
+| ---                     | ---                                 | ---           | ---         |
+| ItemClicked             | item: Item                          | void          | Triggered when an item is clicked. |
+| ItemContextMenu         | item: Item, event: MouseEvent       | void          | Triggered when an item is righted click (Context Menu). |
+| SectionClickEvent       | section: Section                    | void          | Triggered when a section is clicked. |
+| SectionContextMenuEvent | section: Section, event: MouseEvent | void          | Triggered when a section is righted click (Context Menu). |
+| ItemDropped             | item: Item                          | void          | Triggered when an item is dropped onto a section. `item` is the new data after the action. |
 
 
-**NOTE:** To prevent the default context menu of the browser, use event.preventDefault() in event.ItemContextMenu() function.
+**NOTE:** To prevent the default context menu of the browser, use event.preventDefault() in event.ItemContextMenu() or event.SectionContextMenuEvent() function.
 
 # Demo
 [Demo](https://abhishekjain12.github.io/ngx-time-scheduler/)

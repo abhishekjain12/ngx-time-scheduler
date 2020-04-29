@@ -15,11 +15,15 @@ export class AppComponent implements OnInit {
   periods: Period[];
   sections: Section[];
   items: Item[];
-  count = 3;
+  itemCount = 3;
+  sectionCount = 10;
 
   constructor(private service: NgxTimeSchedulerService) {
     this.events.SectionClickEvent = (section) => {
       this.eventOutput += '\n' + JSON.stringify(section);
+    };
+    this.events.SectionContextMenuEvent = (section, {x, y}: MouseEvent) => {
+      this.eventOutput += '\n' + JSON.stringify(section) + ',' + JSON.stringify({x, y});
     };
     this.events.ItemClicked = (item) => {
       this.eventOutput += '\n' + JSON.stringify(item);
@@ -150,11 +154,11 @@ export class AppComponent implements OnInit {
   }
 
   addItem() {
-    this.count++;
+    this.itemCount++;
     this.service.itemPush({
-      id: this.count,
+      id: this.itemCount,
       sectionID: 5,
-      name: 'Item ' + this.count,
+      name: 'Item ' + this.itemCount,
       start: moment().startOf('day'),
       end: moment().add(3, 'days').endOf('day'),
       classes: ''
@@ -167,6 +171,26 @@ export class AppComponent implements OnInit {
 
   removeItem() {
     this.service.itemRemove(4);
+  }
+
+  addSection() {
+    this.sectionCount++;
+    this.service.sectionPush({
+      id: this.sectionCount,
+      name: 'Section ' + this.sectionCount
+    });
+  }
+
+  popSection() {
+    this.service.sectionPop();
+  }
+
+  removeSection() {
+    this.service.sectionRemove(4);
+  }
+
+  refresh() {
+    this.service.refresh();
   }
 
 }

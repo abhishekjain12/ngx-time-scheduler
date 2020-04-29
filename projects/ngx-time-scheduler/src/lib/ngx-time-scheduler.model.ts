@@ -45,6 +45,7 @@ export class Events {
   ItemClicked: (item: Item) => void;
   ItemContextMenu: (item: Item, event: MouseEvent) => void;
   SectionClickEvent: (section: Section) => void;
+  SectionContextMenuEvent: (section: Section, event: MouseEvent) => void;
 }
 
 export class SectionItem {
