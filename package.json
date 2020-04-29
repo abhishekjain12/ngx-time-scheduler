@@ -18,6 +18,7 @@
     "package": "npm run build_lib && npm run copy_files && npm run npm_pack",
     "publish": "cd dist/ngx-time-scheduler && npm publish"
   },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "private": true,
   "dependencies": {
     "@angular/animations": "~8.2.13",
