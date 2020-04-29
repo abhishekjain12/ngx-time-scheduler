@@ -1,6 +1,6 @@
 {
-  "name": "time-scheduler",
-  "version": "0.0.0",
+  "name": "ngx-time-scheduler",
+  "version": "1.5.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
