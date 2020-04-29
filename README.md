@@ -233,12 +233,15 @@ An object containing the text used in the scheduler, to be easily customized.
 #### Events
 A selection of events are provided to hook into when creating the scheduler, and are triggered with most interactions with items.
 
-| Name              | Parameters        | Return type   | Description |
-| ---               | ---               | ---           | ---         |
-| ItemClicked       | item: Item        | void          | Triggered when an item is clicked. |
-| SectionClickEvent | section: Section  | void          | Triggered when a section is clicked. |
-| ItemDropped       | item: Item        | void          | Triggered when an item is dropped onto a section. `item` is the new data after the action. |
+| Name              | Parameters                     | Return type   | Description |
+| ---               | ---                            | ---           | ---         |
+| ItemClicked       | item: Item                     | void          | Triggered when an item is clicked. |
+| ItemContextMenu   | item: Item, event: MouseEvent  | void          | Triggered when an item is righted click (Context Menu). |
+| SectionClickEvent | section: Section               | void          | Triggered when a section is clicked. |
+| ItemDropped       | item: Item                     | void          | Triggered when an item is dropped onto a section. `item` is the new data after the action. |
 
+
+**NOTE:** To prevent the default context menu of the browser, use event.preventDefault() in event.ItemContextMenu() function.
 
 # Demo
 [Demo](https://abhishekjain12.github.io/ngx-time-scheduler/)

@@ -18,9 +18,18 @@ export class AppComponent implements OnInit {
   count = 3;
 
   constructor(private service: NgxTimeSchedulerService) {
-    this.events.SectionClickEvent = (section) => { this.eventOutput += '\n' + JSON.stringify(section); };
-    this.events.ItemClicked = (item) => { this.eventOutput += '\n' + JSON.stringify(item); };
-    this.events.ItemDropped = (item) => { this.eventOutput += '\n' + JSON.stringify(item); };
+    this.events.SectionClickEvent = (section) => {
+      this.eventOutput += '\n' + JSON.stringify(section);
+    };
+    this.events.ItemClicked = (item) => {
+      this.eventOutput += '\n' + JSON.stringify(item);
+    };
+    this.events.ItemContextMenu = (item, {x, y}: MouseEvent) => {
+      this.eventOutput += '\n' + JSON.stringify(item) + ',' + JSON.stringify({x, y});
+    };
+    this.events.ItemDropped = (item) => {
+      this.eventOutput += '\n' + JSON.stringify(item);
+    };
 
     this.periods = [
       {

@@ -110,11 +110,12 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
       });
     });
 
-    const sortedItems = itemMetas.reduce(function (sortItems: {}, itemMeta: ItemMeta) {
-      if (!sortItems[itemMeta.item.sectionID]) {
-        sortItems[itemMeta.item.sectionID] = [];
+    const sortedItems = itemMetas.reduce((sortItems: {}, itemMeta: ItemMeta) => {
+      const index = this.sectionItems.findIndex(sectionItem => sectionItem.section.id === itemMeta.item.sectionID);
+      if (!sortItems[index]) {
+        sortItems[index] = [];
       }
-      sortItems[itemMeta.item.sectionID].push(itemMeta);
+      sortItems[index].push(itemMeta);
       return sortItems;
     }, {});
 
@@ -169,8 +170,8 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
         }
 
         elemBottom = elem.cssTop + this.minRowHeight + 1;
-        if (elemBottom > this.sectionItems[Number(prop) - 1].minRowHeight) {
-          this.sectionItems[Number(prop) - 1].minRowHeight = elemBottom;
+        if (this.sectionItems[Number(prop)] && elemBottom > this.sectionItems[Number(prop)].minRowHeight) {
+          this.sectionItems[Number(prop)].minRowHeight = elemBottom;
         }
       }
     }
@@ -211,8 +212,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
     } else {
       this.currentTimeVisibility = 'hidden';
     }
-
-    this.ShowCurrentTimeHandle = setTimeout(this.ShowCurrentTimeHandle, 30000);
+    this.ShowCurrentTimeHandle = setTimeout(this.showCurrentTimeIndicator, 30000);
   }
 
   gotoToday() {

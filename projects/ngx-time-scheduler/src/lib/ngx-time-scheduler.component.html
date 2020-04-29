@@ -79,6 +79,7 @@
                *ngFor="let itemMeta of sectionItem.itemMetas"
                [ngClass]="itemMeta.item.classes"
                (click)="events.ItemClicked ? events.ItemClicked(itemMeta.item) : false"
+               (contextmenu)="events.ItemContextMenu ? events.ItemContextMenu(itemMeta.item, $event) : false"
                [style.height]="minRowHeight + 'px'"
                [style.top]="itemMeta.cssTop + 'px'"
                [style.left]="itemMeta.cssLeft + '%'"

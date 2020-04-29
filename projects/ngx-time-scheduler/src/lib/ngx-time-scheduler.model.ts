@@ -43,6 +43,7 @@ export class Events {
   // ItemMovementEnd: (item: Item, start: any, end: any) => void;
   ItemDropped: (item: Item) => void;
   ItemClicked: (item: Item) => void;
+  ItemContextMenu: (item: Item, event: MouseEvent) => void;
   SectionClickEvent: (section: Section) => void;
 }
 
