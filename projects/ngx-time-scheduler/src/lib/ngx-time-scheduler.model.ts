@@ -4,6 +4,8 @@ export class Period {
   timeFramePeriod: number;
   timeFrameOverall: number;
   timeFrameHeaders: string[];
+  timeFrameHeadersTooltip?: string[];
+  tooltip?: string;
 }
 
 export class Item {
@@ -13,11 +15,13 @@ export class Item {
   end: any;
   classes: string;
   sectionID: number;
+  tooltip?: string;
 }
 
 export class Section {
   id: number;
   name: string;
+  tooltip?: string;
 }
 
 export class Text {
@@ -84,4 +88,5 @@ export class Header {
 export class HeaderDetails {
   name: string;
   colspan: number;
+  tooltip?: string;
 }

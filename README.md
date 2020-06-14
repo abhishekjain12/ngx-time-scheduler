@@ -158,7 +158,7 @@ export class AppComponent implements OnInit {
 # Inputs
 | Name                  | Required  | Type      | Default                   | Description   |
 | ---                   | :---:     | ---       | ---                       | ---           |
-| periods               | Yes       | Period[]  | `null`                    | An array of `Period` denoting what periods to display and used to traverse the calendar. |
+| periods               | Yes       | Period[]  | `null`                    | An array of `Period` denoting what periods to display and use to traverse the calendar. |
 | sections              | Yes       | Section[] | `null`                    | An array of `Section` to fill up the sections of the scheduler. |
 | items                 | Yes       | Item[]    | `null`                    | An array of `Item` to fill up the items of the scheduler. |
 | events                | No        | Events    | `new Events()`            | The events that can be hooked into. |
@@ -171,9 +171,11 @@ export class AppComponent implements OnInit {
 | headerFormat          | No        | string    | `'Do MMM YYYY'`           | The momentjs format to use for the date range displayed as a header. |
 | minRowHeight          | No        | number    | `40`                      | The minimum height, in pixels, that a section should be. |
 | maxHeight             | No        | number    | `null`                    | The maximum height of the scheduler. |
-| text                  | No        | Text      | `new Text()`              | An object containing the text used in the scheduler, to be easily customized. |
+| text                  | No        | Text      | `new Text()`              | An object containing the text use in the scheduler, to be easily customized. |
 | start                 | No        | moment    | `moment().startOf('day')` | The start time of the scheduler as a moment object. It's recommend to use `.startOf('day')`  on the moment for a clear starting point. |
+| locale                | No        | string    | `` (empty === 'en')       | To load a locale, pass the key and the string values to `moment.locale`. By default, Moment.js uses English (United States) locale strings. |
 
+**NOTE:** Date locale is currently not available for Goto(button) datepicker. It will apply a date locale as per the user's system setting. Feel free to provide suggestions.
 
 # Methods
 
@@ -195,36 +197,40 @@ Object with properties which create periods that can be used to traverse the cal
 #### Period
 Object with properties which create periods that can be used to traverse the calendar.
 
-| Name              | Type      | Default   | Description   |
-| ---               | ---       | ---       | ---           |
-| name              | string    | `null`    | The name is used to select the period and should be unique. |
-| classes           | string    | `null`    | Any css classes you wish to add to this item.  |
-| timeFramePeriod   | number    | `null`    | The number of minutes between each "Timeframe" of the period. |
-| timeFrameOverall  | number    | `null`    | The total number of minutes that the period shows. |
-| timeFrameHeaders  | string[]  | `null`    | An array of [momentjs formats](http://momentjs.com/docs/#/displaying/format/) which is used to display the header rows at the top of the scheduler. Rather than repeating formats, the scheduler will merge all cells which are followed by a cell which shows the same date. For example, instead of seeing "Tuesday, Tuesday, Tuesday" with "3pm, 6pm, 9pm" below it, you'll instead see "Tuesday" a single time. |
+| Name                    | Type      | Required | Default   | Description   |
+| ---                     | ---       | ---      | ---       | ---           |
+| name                    | string    | Yes      | `null`    | The name is use to select the period and should be unique. |
+| classes                 | string    | Yes      | `null`    | Any css classes you wish to add to this item.  |
+| timeFramePeriod         | number    | Yes      | `null`    | The number of minutes between each "Timeframe" of the period. |
+| timeFrameOverall        | number    | Yes      | `null`    | The total number of minutes that the period shows. |
+| timeFrameHeaders        | string[]  | Yes      | `null`    | An array of [momentjs formats](http://momentjs.com/docs/#/displaying/format/) which is use to display the header rows at the top of the scheduler. Rather than repeating formats, the scheduler will merge all cells which are followed by a cell which shows the same date. For example, instead of seeing "Tuesday, Tuesday, Tuesday" with "3pm, 6pm, 9pm" below it, you'll instead see "Tuesday" a single time. |
+| timeFrameHeadersTooltip | string[]  | No       | `null`    | An array of [momentjs formats](http://momentjs.com/docs/#/displaying/format/) which is use to display the tooltip of the header rows at the top of the scheduler. Rather than repeating formats, the scheduler will merge all cells which are followed by a cell which shows the same date. For example, instead of seeing "Tuesday, Tuesday, Tuesday" with "3pm, 6pm, 9pm" below it, you'll instead see "Tuesday" a single time. |
+| tooltip                 | string    | No       | `null`    | It is use to display tooltip on period button. |
 
 #### Section
 Sections used to fill the scheduler.
 
-| Name  | Type   | Default| Description |
-| ---   | ---    | ---    | ---         |
-| id    | number | `null` |  A unique identifier for the section. |
-| name  | string | `null` | The name to display for the section. |
+| Name    | Type   | Required | Default | Description |
+| ---     | ---    | ---      | ---     | ---         |
+| id      | number | Yes      | `null`  | A unique identifier for the section. |
+| name    | string | Yes      | `null`  | The name to display for the section. |
+| tooltip | string | No       | `null`  | It is use to display tooltip for the section. |
 
 #### Item
 Items used to fill the scheduler.
 
-| Name      | Type   | Default| Description |
-| ---       | ---    | ---    | ---         |
-| id        | number | `null` | An identifier for the item (doesn't have to be unique, but may help you identify which item was interacted with). | 
-| name      | string | `null` | The name to display for the item. |
-| start     | any    | `null` | A Moment object denoting where this object starts. |
-| end       | any    | `null` | A Moment object denoting where this object ends. |
-| classes   | string | `null` | Any css classes you wish to add to this item. |
-| sectionID | number | `null` | The ID of the section that this item belongs to. |
+| Name      | Type   | Required | Default | Description |
+| ---       | ---    | ---      | ---     | ---         |
+| id        | number | Yes      | `null`  | An identifier for the item (doesn't have to be unique, but may help you identify which item was interacted with). | 
+| name      | string | Yes      | `null`  | The name to display for the item. |
+| start     | any    | Yes      | `null`  | A Moment object denoting where this object starts. |
+| end       | any    | Yes      | `null`  | A Moment object denoting where this object ends. |
+| classes   | string | Yes      | `null`  | Any css classes you wish to add to this item. |
+| sectionID | number | Yes      | `null`  | The ID of the section that this item belongs to. |
+| tooltip   | string | No       | `null`  | It is use to display tooltip for the section. |
 
 #### Text
-An object containing the text used in the scheduler, to be easily customized.
+An object containing the text use in the scheduler, to be easily customized.
 
 | Name          | Type   | Default      |
 | ---           | ---    | ---          |
@@ -246,7 +252,7 @@ A selection of events are provided to hook into when creating the scheduler, and
 | ItemDropped             | item: Item                          | void          | Triggered when an item is dropped onto a section. `item` is the new data after the action. |
 
 
-**NOTE:** To prevent the default context menu of the browser, use event.preventDefault() in event.ItemContextMenu() or event.SectionContextMenuEvent() function.
+**NOTE:** To prevent the default context menu of the browser, use event.preventDefault() in an event.ItemContextMenu() or event.SectionContextMenuEvent() function.
 
 # Demo
 [Demo](https://abhishekjain12.github.io/ngx-time-scheduler/)

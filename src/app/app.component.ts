@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
       {
         name: '2 week',
         timeFrameHeaders: ['MMM YYYY', 'DD(ddd)'],
+        timeFrameHeadersTooltip: ['MMM YYYY', 'DD(ddd)'],
         classes: '',
         timeFrameOverall: 1440 * 14,
         timeFramePeriod: 1440,
