@@ -5,6 +5,7 @@
               *ngFor="let period of periods"
               [ngClass]="period.classes"
               (click)="changePeriod(period)"
+              [title]="period.tooltip? period.tooltip : ''"
       >
         {{period.name}}
       </button>
@@ -24,7 +25,7 @@
     </div>
 
     <h3 class="text-center m-0">
-      {{ start.format(headerFormat) + ' - ' + end.format(headerFormat)}}
+      {{ start.locale(locale).format(headerFormat) + ' - ' + end.locale(locale).format(headerFormat)}}
     </h3>
   </div>
 
@@ -39,6 +40,7 @@
         <td class="text-center"
             *ngFor="let dateTime of timeFrameHeader.headerDetails; trackBy: trackByFn"
             [colSpan]="dateTime.colspan"
+            [title]="dateTime.tooltip? dateTime.tooltip : ''"
         >
           {{dateTime.name}}
         </td>
@@ -54,6 +56,7 @@
               (click)="events.SectionClickEvent ? events.SectionClickEvent(sectionItem.section) : false"
               (contextmenu)="events.SectionContextMenuEvent ? events.SectionContextMenuEvent(sectionItem.section, $event) : false"
               [style.cursor]="events.SectionClickEvent ? 'pointer' : ''"
+              [title]="sectionItem.section.tooltip? sectionItem.section.tooltip : ''"
           >
             {{sectionItem.section.name}}
           </td>
@@ -93,7 +96,8 @@
                  [style.width]="'calc('+ itemMeta.cssWidth + '% - 6px)'"
             ></div>
             <div class="time-sch-item-start" *ngIf="itemMeta.isStart"></div>
-            <div class="time-sch-item-content">
+            <div class="time-sch-item-content"
+                 [title]="itemMeta.item.tooltip? itemMeta.item.tooltip : ''">
               {{itemMeta.item.name}}
             </div>
             <div class="time-sch-item-end" *ngIf="itemMeta.isEnd"></div>

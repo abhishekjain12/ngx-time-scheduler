@@ -32,6 +32,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
   @Input() showToday = true;
   @Input() allowDragging = false;
   // @Input() allowResizing = false;
+  @Input() locale = '';
   @Input() showBusinessDayOnly = false;
   @Input() headerFormat = 'Do MMM YYYY';
   @Input() minRowHeight = 40;
@@ -60,6 +61,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
     private changeDetector: ChangeDetectorRef,
     private service: NgxTimeSchedulerService
   ) {
+    moment.locale(this.locale);
   }
 
   ngOnInit(): void {
@@ -193,8 +195,8 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
     }
 
     this.header = new Array<Header>();
-    this.currentPeriod.timeFrameHeaders.forEach(ele => {
-      this.header.push(this.getDatesBetweenTwoDates(ele));
+    this.currentPeriod.timeFrameHeaders.forEach((ele: string, index: number) => {
+      this.header.push(this.getDatesBetweenTwoDates(ele, index));
     });
 
     this.setItemsInSectionItems();
@@ -240,7 +242,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
     this.changePeriod(this.currentPeriod);
   }
 
-  getDatesBetweenTwoDates(format): Header {
+  getDatesBetweenTwoDates(format: string, index: number): Header {
     const now = moment(this.start);
     const dates = new Header();
     let prev: string;
@@ -249,7 +251,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
     while (now.isBefore(this.end) || now.isSame(this.end)) {
       if (!this.showBusinessDayOnly || (now.day() !== 0 && now.day() !== 6)) {
         const headerDetails = new HeaderDetails();
-        headerDetails.name = now.format(format);
+        headerDetails.name = now.locale(this.locale).format(format);
         if (prev && prev !== headerDetails.name) {
           colspan = 1;
         } else {
@@ -258,6 +260,8 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
         }
         prev = headerDetails.name;
         headerDetails.colspan = colspan;
+        headerDetails.tooltip = this.currentPeriod.timeFrameHeadersTooltip && this.currentPeriod.timeFrameHeadersTooltip[index] ?
+          now.locale(this.locale).format(this.currentPeriod.timeFrameHeadersTooltip[index]) : '';
         dates.headerDetails.push(headerDetails);
       }
       now.add(this.currentPeriod.timeFramePeriod, 'minutes');
@@ -307,7 +311,6 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
 
   sectionPush() {
     this.subscription.add(this.service.sectionAdd.asObservable().subscribe((section: Section) => {
-      console.log(section);
       this.sections.push(section);
       this.refreshView();
     }));
