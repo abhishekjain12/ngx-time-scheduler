@@ -7,8 +7,10 @@ import {
   ItemMeta,
   Item,
   Period,
-  SectionItem, Section,
-  Text, Events
+  SectionItem,
+  Section,
+  Text,
+  Events
 } from './ngx-time-scheduler.model';
 import * as moment_ from 'moment';
 import {Subscription} from 'rxjs';
@@ -188,6 +190,10 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
     const _start = this.start;
     this.end = moment(_start).add(this.currentPeriod.timeFrameOverall, 'minutes').endOf('day');
     this.currentPeriodMinuteDiff = Math.abs(this.start.diff(this.end, 'minutes'));
+
+    if (this.events.PeriodChange) {
+      this.events.PeriodChange(this.start, this.end);
+    }
 
     if (this.showBusinessDayOnly) {
       this.currentPeriodMinuteDiff -=
