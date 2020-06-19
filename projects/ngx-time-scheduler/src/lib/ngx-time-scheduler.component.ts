@@ -23,7 +23,7 @@ const moment = moment_;
   styleUrls: ['./ngx-time-scheduler.component.css']
 })
 export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
-  @ViewChild('sectionTd', {static: false}) set SectionTd(elementRef: ElementRef) {
+  @ViewChild('sectionTd') set SectionTd(elementRef: ElementRef) {
     this.SectionLeftMeasure = elementRef.nativeElement.clientWidth + 'px';
     this.changeDetector.detectChanges();
   }
