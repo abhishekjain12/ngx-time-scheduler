@@ -68,7 +68,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setSectionsInSectionItems();
-    this.changePeriod(this.periods[0]);
+    this.changePeriod(this.periods[0], false);
     this.itemPush();
     this.itemPop();
     this.itemRemove();
@@ -80,7 +80,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
 
   refreshView() {
     this.setSectionsInSectionItems();
-    this.changePeriod(this.currentPeriod);
+    this.changePeriod(this.currentPeriod, false);
   }
 
   trackByFn(index, item) {
@@ -185,13 +185,13 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
     }
   }
 
-  changePeriod(period: Period) {
+  changePeriod(period: Period, userTrigger: boolean = true) {
     this.currentPeriod = period;
     const _start = this.start;
     this.end = moment(_start).add(this.currentPeriod.timeFrameOverall, 'minutes').endOf('day');
     this.currentPeriodMinuteDiff = Math.abs(this.start.diff(this.end, 'minutes'));
 
-    if (this.events.PeriodChange) {
+    if (userTrigger && this.events.PeriodChange) {
       this.events.PeriodChange(this.start, this.end);
     }
 
