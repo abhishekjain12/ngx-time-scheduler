@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/demo",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -49,6 +50,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }
@@ -141,6 +146,11 @@
           "options": {
             "tsConfig": "projects/ngx-time-scheduler/tsconfig.lib.json",
             "project": "projects/ngx-time-scheduler/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-time-scheduler/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -166,5 +176,8 @@
       }
     }
   },
-  "defaultProject": "TimeScheduler"
+  "defaultProject": "TimeScheduler",
+  "cli": {
+    "analytics": false
+  }
 }

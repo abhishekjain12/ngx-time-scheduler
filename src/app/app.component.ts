@@ -34,6 +34,9 @@ export class AppComponent implements OnInit {
     this.events.ItemDropped = (item) => {
       this.eventOutput += '\n' + JSON.stringify(item);
     };
+    this.events.PeriodChange = (start, end) => {
+      this.eventOutput += '\n' + JSON.stringify(start) + ',' + JSON.stringify(end);
+    };
 
     this.periods = [
       {
@@ -52,7 +55,7 @@ export class AppComponent implements OnInit {
           'Do MMM',
           'HH'
         ],
-        classes: 'period-3day'
+        classes: 'period-3day',
       }, {
         name: '1 week',
         timeFrameHeaders: ['MMM YYYY', 'DD(ddd)'],

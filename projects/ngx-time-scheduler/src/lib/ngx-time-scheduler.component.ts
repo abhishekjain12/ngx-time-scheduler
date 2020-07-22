@@ -7,8 +7,10 @@ import {
   ItemMeta,
   Item,
   Period,
-  SectionItem, Section,
-  Text, Events
+  SectionItem,
+  Section,
+  Text,
+  Events
 } from './ngx-time-scheduler.model';
 import * as moment_ from 'moment';
 import {Subscription} from 'rxjs';
@@ -21,7 +23,7 @@ const moment = moment_;
   styleUrls: ['./ngx-time-scheduler.component.css']
 })
 export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
-  @ViewChild('sectionTd', {static: false}) set SectionTd(elementRef: ElementRef) {
+  @ViewChild('sectionTd') set SectionTd(elementRef: ElementRef) {
     this.SectionLeftMeasure = elementRef.nativeElement.clientWidth + 'px';
     this.changeDetector.detectChanges();
   }
@@ -66,7 +68,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setSectionsInSectionItems();
-    this.changePeriod(this.periods[0]);
+    this.changePeriod(this.periods[0], false);
     this.itemPush();
     this.itemPop();
     this.itemRemove();
@@ -78,7 +80,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
 
   refreshView() {
     this.setSectionsInSectionItems();
-    this.changePeriod(this.currentPeriod);
+    this.changePeriod(this.currentPeriod, false);
   }
 
   trackByFn(index, item) {
@@ -183,11 +185,15 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
     }
   }
 
-  changePeriod(period: Period) {
+  changePeriod(period: Period, userTrigger: boolean = true) {
     this.currentPeriod = period;
     const _start = this.start;
     this.end = moment(_start).add(this.currentPeriod.timeFrameOverall, 'minutes').endOf('day');
     this.currentPeriodMinuteDiff = Math.abs(this.start.diff(this.end, 'minutes'));
+
+    if (userTrigger && this.events.PeriodChange) {
+      this.events.PeriodChange(this.start, this.end);
+    }
 
     if (this.showBusinessDayOnly) {
       this.currentPeriodMinuteDiff -=
