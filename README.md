@@ -245,9 +245,9 @@ A selection of events are provided to hook into when creating the scheduler, and
 
 | Name                    | Parameters                               | Return type   | Description |
 | ---                     | ---                                      | ---           | ---         |
-| ItemClicked             | item: Item                               | void          | Triggered when an item is clicked. |
+| ItemClicked             | item: Item, event: MouseEvent            | void          | Triggered when an item is clicked. |
 | ItemContextMenu         | item: Item, event: MouseEvent            | void          | Triggered when an item is righted click (Context Menu). |
-| SectionClickEvent       | section: Section                         | void          | Triggered when a section is clicked. |
+| SectionClickEvent       | section: Section, event: MouseEvent      | void          | Triggered when a section is clicked. |
 | SectionContextMenuEvent | section: Section, event: MouseEvent      | void          | Triggered when a section is righted click (Context Menu). |
 | ItemDropped             | item: Item                               | void          | Triggered when an item is dropped onto a section. `item` is the new data after the action. |
 | PeriodChange            | start: moment.Moment, end: moment.Moment | void          | Triggered when an period is change. |
