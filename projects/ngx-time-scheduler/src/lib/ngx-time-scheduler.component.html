@@ -53,7 +53,7 @@
         <tr *ngFor="let sectionItem of sectionItems; trackBy: trackByFn"
             [style.height]="sectionItem.minRowHeight + 'px'">
           <td class="time-sch-section text-center" #sectionTd
-              (click)="events.SectionClickEvent ? events.SectionClickEvent(sectionItem.section) : false"
+              (click)="events.SectionClickEvent ? events.SectionClickEvent(sectionItem.section, $event) : false"
               (contextmenu)="events.SectionContextMenuEvent ? events.SectionContextMenuEvent(sectionItem.section, $event) : false"
               [style.cursor]="events.SectionClickEvent ? 'pointer' : ''"
               [title]="sectionItem.section.tooltip? sectionItem.section.tooltip : ''"
@@ -82,7 +82,7 @@
                [cdkDragDisabled]="!allowDragging"
                *ngFor="let itemMeta of sectionItem.itemMetas"
                [ngClass]="itemMeta.item.classes"
-               (click)="events.ItemClicked ? events.ItemClicked(itemMeta.item) : false"
+               (click)="events.ItemClicked ? events.ItemClicked(itemMeta.item, $event) : false"
                (contextmenu)="events.ItemContextMenu ? events.ItemContextMenu(itemMeta.item, $event) : false"
                [style.height]="minRowHeight + 'px'"
                [style.top]="itemMeta.cssTop + 'px'"

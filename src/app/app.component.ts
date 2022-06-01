@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Item, Period, Section, Events} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.model';
+import {Events, Item, Period, Section} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.model';
 import {NgxTimeSchedulerService} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.service';
 import * as moment from 'moment';
 
@@ -19,14 +19,14 @@ export class AppComponent implements OnInit {
   sectionCount = 10;
 
   constructor(private service: NgxTimeSchedulerService) {
-    this.events.SectionClickEvent = (section) => {
-      this.eventOutput += '\n' + JSON.stringify(section);
+    this.events.SectionClickEvent = (section: Section, event: MouseEvent) => {
+      this.eventOutput += '\n' + JSON.stringify(section) + ',' + JSON.stringify(event);
     };
     this.events.SectionContextMenuEvent = (section, {x, y}: MouseEvent) => {
       this.eventOutput += '\n' + JSON.stringify(section) + ',' + JSON.stringify({x, y});
     };
-    this.events.ItemClicked = (item) => {
-      this.eventOutput += '\n' + JSON.stringify(item);
+    this.events.ItemClicked = (item: Item, event: MouseEvent) => {
+      this.eventOutput += '\n' + JSON.stringify(item) + ',' + JSON.stringify(event);
     };
     this.events.ItemContextMenu = (item, {x, y}: MouseEvent) => {
       this.eventOutput += '\n' + JSON.stringify(item) + ',' + JSON.stringify({x, y});
