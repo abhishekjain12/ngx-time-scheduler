@@ -30,6 +30,8 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
 
   @Input() currentTimeFormat = 'DD-MMM-YYYY HH:mm';
   @Input() showCurrentTime = true;
+  @Input() showHeaderTitle = true;
+  @Input() showActionButtons = true;
   @Input() showGoto = true;
   @Input() showToday = true;
   @Input() allowDragging = false;

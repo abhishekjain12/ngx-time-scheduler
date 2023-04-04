@@ -33,6 +33,7 @@ export class Text {
   TodayButton: string;
   GotoButton: string;
   SectionTitle: string;
+  HeaderTitle: string;
 
   constructor() {
     this.NextButton = 'Next';
@@ -40,6 +41,7 @@ export class Text {
     this.TodayButton = 'Today';
     this.GotoButton = 'Go to';
     this.SectionTitle = 'Section';
+    this.HeaderTitle = null;
   }
 }
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {Item, Section} from './ngx-time-scheduler.model';
 
@@ -15,14 +15,15 @@ export class NgxTimeSchedulerService {
   public sectionId = new Subject<number>();
   public refreshView = new Subject();
 
-  constructor() { }
+  constructor() {
+  }
 
   public itemPush(item: Item): void {
     this.itemAdd.next(item);
   }
 
   public itemPop(): void {
-    this.item.next();
+    this.item.next(null);
   }
 
   public itemRemove(id: number): void {
@@ -34,7 +35,7 @@ export class NgxTimeSchedulerService {
   }
 
   public sectionPop(): void {
-    this.section.next();
+    this.section.next(null);
   }
 
   public sectionRemove(id: number): void {
@@ -42,7 +43,7 @@ export class NgxTimeSchedulerService {
   }
 
   public refresh(): void {
-    this.refreshView.next();
+    this.refreshView.next(null);
   }
 
 }

@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { NgxTimeSchedulerComponent } from './ngx-time-scheduler.component';
+import {NgModule} from '@angular/core';
+import {NgxTimeSchedulerComponent} from './ngx-time-scheduler.component';
 import {CommonModule} from '@angular/common';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
@@ -11,4 +11,5 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
   ],
   exports: [NgxTimeSchedulerComponent]
 })
-export class NgxTimeSchedulerModule { }
+export class NgxTimeSchedulerModule {
+}

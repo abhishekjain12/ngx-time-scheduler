@@ -1,6 +1,6 @@
 <div class="time-sch-wrapper" [style.height]="maxHeight">
   <div class="time-sch-header-wrapper mb-1">
-    <div class="time-sch-period-container">
+    <div class="time-sch-period-container" *ngIf="showActionButtons">
       <button class="btn"
               *ngFor="let period of periods"
               [ngClass]="period.classes"
@@ -11,11 +11,11 @@
       </button>
     </div>
 
-    <div class="time-sch-time-container">
+    <div class="time-sch-time-container" *ngIf="showActionButtons">
       <button class="btn" *ngIf="showGoto" (click)="showGotoModal = !showGotoModal">{{text.GotoButton}}</button>
       <div class="goto-modal" *ngIf="showGotoModal">
         <label>
-          <input type="date" (change)="gotoDate($event.target.value)">
+          <input type="date" (change)="gotoDate($event.target?.value)">
         </label>
       </div>
 
@@ -24,8 +24,8 @@
       <button class="btn" (click)="nextPeriod()">{{text.NextButton}}</button>
     </div>
 
-    <h3 class="text-center m-0">
-      {{ start.locale(locale).format(headerFormat) + ' - ' + end.locale(locale).format(headerFormat)}}
+    <h3 class="text-center m-0" *ngIf="showHeaderTitle">
+      {{ text.HeaderTitle ?? start.locale(locale).format(headerFormat) + ' - ' + end.locale(locale).format(headerFormat)}}
     </h3>
   </div>
 

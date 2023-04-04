@@ -1,12 +1,14 @@
 {
   "name": "ngx-time-scheduler",
-  "version": "1.7.1",
+  "version": "2.0.0",
   "description": "A simple Angular Timeline Scheduler library",
   "author": {
     "name": "Abhishek Jain",
     "email": "jabi1210@gmail.com"
   },
-  "publishConfig": { "registry": "https://registry.npmjs.org/" },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/abhishekjain12/ngx-time-scheduler.git"
@@ -28,13 +30,14 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^9.1.11",
-    "@angular/core": "^9.1.11",
-    "@angular/cdk": "^9.2.4",
-    "moment": "^2.27.0"
+    "@angular/common": "^15.2.5",
+    "@angular/core": "^15.2.5",
+    "@angular/cdk": "^15.2.5",
+    "moment": "2.29.4"
   },
   "dependencies": {
-    "@angular/cdk": "^9.2.4",
-    "moment": "^2.27.0"
+    "@angular/cdk": "^15.2.5",
+    "moment": "2.29.4",
+    "tslib": "^2.5.0"
   }
 }
